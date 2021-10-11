@@ -9,6 +9,7 @@ var player = require('play-sound')();
 const _basePath: string = path.join(__dirname, '..');
 const EXPERIENCE_KEY = 'type_counter11';
 const LEVEL_KEY = 'type_counter12';
+const PREVIOUS_TYPE = 'type_counter13';
 
 //seのpath宣言
 const _saveAudio: string = path.join(_basePath, 'music', 'save.mp3');
@@ -26,29 +27,38 @@ export function activate(context: vscode.ExtensionContext, event: vscode.TextDoc
     let experience : number = Number(exp);
     let leve = context.globalState.get(LEVEL_KEY, 0);
     let level : number = Number(leve);
+    let previous = context.globalState.get(EXPERIENCE_KEY, 0);
+    let prev : number = Number(previous);
 
+    _channell.appendLine(`前回の入力数は、${prev}でした`);
+    context.globalState.update(EXPERIENCE_KEY, 0);
     _channell.appendLine(`あなたのレベルは ${level} です`);
     _channell.appendLine(`経験値: ${"*".repeat(experience/10)}`);
 
     const changeDocumentSubscription = vscode.workspace.onDidChangeTextDocument(e => {
         experience ++;
+        prev ++;
+        context.globalState.update(PREVIOUS_TYPE, prev);
+        context.globalState.update(EXPERIENCE_KEY, experience);
         if (experience === 150){
             _channell.clear();
             experience = 0;
             level ++;
             context.globalState.update(LEVEL_KEY, level);
             player.play(_levelUpAudio);
-            _channell.appendLine(`レベルがあがりました!`);
+            vscode.window.showInformationMessage("レベルが上がりました");
             _channell.appendLine(`あなたのレベルは ${level} です`);
             _channell.appendLine(`経験値: ${"*".repeat(experience/10)}`);
         };
         if (experience % 10 === 0){
-        context.globalState.update(EXPERIENCE_KEY, experience);
         _channell.clear();
+        if (experience === 0){
+            _channell.appendLine(`レベルがあがりました!`);
+        }
         _channell.appendLine(`あなたのレベルは ${level} です`);
         _channell.appendLine(`経験値: ${"*".repeat(experience/10)}`);
         }
-      });        
+      });
 }
 
 export function deactivate() {

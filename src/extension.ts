@@ -65,6 +65,7 @@ export function activate(context: vscode.ExtensionContext, event: vscode.TextDoc
         _channell.appendLine(`敵があらわれた`);
         _channell.appendLine(`    人     `);
         _channell.appendLine(`  ( .. )`);
+        
 
         let myHp = getRandomInt(20, 35);
         let monsterHp = getRandomInt(30, 50);
@@ -102,7 +103,6 @@ export function activate(context: vscode.ExtensionContext, event: vscode.TextDoc
                         if (monsterHp <= 0)
                         {
                             actionMode = false;
-                            _channell.appendLine(`敵を倒した`);
                             _channell.appendLine(`モンスターを倒しました`);
                             let monsterExperience = getRandomInt(40, 60);
                             _channell.appendLine(`${monsterExperience}の経験値を得ました`);

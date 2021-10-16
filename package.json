@@ -11,6 +11,7 @@
     "Other"
   ],
   "activationEvents": [
+    "*",
     "onCommand:exp.log",
     "onCommand:monster.appearance",
     "onCommand:battle.escape"

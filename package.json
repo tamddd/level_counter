@@ -11,11 +11,24 @@
     "Other"
   ],
   "activationEvents": [
-    "*"
+    "onCommand:exp.log",
+    "onCommand:monster.appearance",
+    "onCommand:battle.escape"
   ],
   "main": "./dist/extension.js",
   "contributes": {
-    "commands": []
+    "commands": [{
+      "command": "exp.log",
+      "title": "exp"
+    },
+    {
+      "command": "monster.appearance",
+      "title": "monster"
+    },
+    {
+      "command": "battle.escape",
+      "title": "escape"
+    }]
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
